@@ -5,7 +5,7 @@ import {
   useSignIn,
   useSignUp,
 } from "@clerk/clerk-expo";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React, { Fragment, useEffect, useState } from "react";
 import {
   Alert,
@@ -33,6 +33,7 @@ function Page() {
 
   const { signIn } = useSignIn();
   const { signUp, setActive } = useSignUp();
+  const router = useRouter();
 
   const ref = useBlurOnFulfill({ value: code, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -43,7 +44,6 @@ function Page() {
   useEffect(() => {
     if (code.length === 6) {
       console.log("code", code);
-      console.log("sigin", login);
       if (login === "true") {
         verifySignIn();
       } else {
@@ -54,10 +54,11 @@ function Page() {
 
   const verifyCode = async () => {
     try {
-      const res = await signUp!.attemptPhoneNumberVerification({
+      const completeVerify = await signUp!.attemptPhoneNumberVerification({
         code,
       });
-      await setActive!({ session: signUp!.createdSessionId });
+      await setActive!({ session: completeVerify.createdSessionId });
+      router.replace("/(authenticated)/(tabs)/home");
     } catch (err) {
       console.log("error", JSON.stringify(err, null, 2));
       if (isClerkAPIResponseError(err)) {
@@ -68,11 +69,12 @@ function Page() {
 
   const verifySignIn = async () => {
     try {
-      await signIn!.attemptFirstFactor({
+      const completeSigIn = await signIn!.attemptFirstFactor({
         strategy: "phone_code",
         code,
       });
-      await setActive!({ session: signIn!.createdSessionId });
+      await setActive!({ session: completeSigIn.createdSessionId });
+      router.replace("/(authenticated)/(tabs)/home");
     } catch (err) {
       console.log("error", JSON.stringify(err, null, 2));
       if (isClerkAPIResponseError(err)) {
