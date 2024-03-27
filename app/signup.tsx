@@ -14,24 +14,28 @@ import { Link, useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 
 const SignUp = () => {
-  const [countryCode, setCountryCode] = useState("+49");
+  const [countryCode, setCountryCode] = useState("+58");
   const [phoneNumber, setPhoneNumber] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
   const router = useRouter();
   const { signUp } = useSignUp();
   const onSignup = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
     try {
-      const fullPhoneNumber = `${countryCode}${phoneNumber}`;
-      // await signUp!.create({
-      //   phoneNumber: fullPhoneNumber,
-      // });
+      const res = await signUp!.create({
+        phoneNumber: fullPhoneNumber,
+      });
+      console.log("resultado", JSON.stringify(res));
+      res.preparePhoneNumberVerification();
+
+      // signUp!.preparePhoneNumberVerification();
 
       router.push({
         pathname: `/verify/[phone]`,
         params: { phone: fullPhoneNumber },
       });
     } catch (error) {
-      __DEV__ && console.log("Error signing up:", error);
+      console.log("Error signing up:", error);
     }
   };
   return (
@@ -51,6 +55,7 @@ const SignUp = () => {
             placeholder="Country code"
             placeholderTextColor={Colors.gray}
             value={countryCode}
+            onChangeText={setCountryCode}
           />
           <TextInput
             style={[styles.input, { flex: 1 }]}

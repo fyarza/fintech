@@ -1,9 +1,14 @@
 import Colors from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Styles";
-import { useSignIn, useSignUp } from "@clerk/clerk-expo";
+import {
+  isClerkAPIResponseError,
+  useSignIn,
+  useSignUp,
+} from "@clerk/clerk-expo";
 import { Link, useLocalSearchParams } from "expo-router";
 import React, { Fragment, useEffect, useState } from "react";
 import {
+  Alert,
   Platform,
   StyleSheet,
   Text,
@@ -20,9 +25,9 @@ import {
 const CELL_COUNT = 6;
 
 function Page() {
-  const { phone, signin } = useLocalSearchParams<{
+  const { phone, login } = useLocalSearchParams<{
     phone: string;
-    signin?: string;
+    login?: string;
   }>();
   const [code, setCode] = useState("");
 
@@ -38,16 +43,44 @@ function Page() {
   useEffect(() => {
     if (code.length === 6) {
       console.log("code", code);
-      if (signin === "true") {
-        verifySigIn();
+      console.log("sigin", login);
+      if (login === "true") {
+        verifySignIn();
       } else {
         verifyCode();
       }
     }
   }, [code]);
 
-  const verifyCode = async () => {};
-  const verifySigIn = async () => {};
+  const verifyCode = async () => {
+    try {
+      const res = await signUp!.attemptPhoneNumberVerification({
+        code,
+      });
+      await setActive!({ session: signUp!.createdSessionId });
+    } catch (err) {
+      console.log("error", JSON.stringify(err, null, 2));
+      if (isClerkAPIResponseError(err)) {
+        Alert.alert("Error", err.errors[0].message);
+      }
+    }
+  };
+
+  const verifySignIn = async () => {
+    try {
+      await signIn!.attemptFirstFactor({
+        strategy: "phone_code",
+        code,
+      });
+      await setActive!({ session: signIn!.createdSessionId });
+    } catch (err) {
+      console.log("error", JSON.stringify(err, null, 2));
+      if (isClerkAPIResponseError(err)) {
+        Alert.alert("Error", err.errors[0].message);
+      }
+    }
+  };
+
   return (
     <View style={defaultStyles.containter}>
       <Text style={defaultStyles.header}>6-digit code</Text>

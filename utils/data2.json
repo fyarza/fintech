@@ -1,0 +1,70 @@
+{
+  "pathRoot": "/client/sign_ups",
+  "status": "missing_requirements",
+  "requiredFields": ["phone_number", "password"],
+  "optionalFields": ["first_name", "last_name"],
+  "missingFields": ["password"],
+  "unverifiedFields": [],
+  "verifications": {
+    "emailAddress": {
+      "pathRoot": "",
+      "status": null,
+      "strategy": null,
+      "nonce": null,
+      "externalVerificationRedirectURL": null,
+      "attempts": null,
+      "expireAt": null,
+      "error": null,
+      "verifiedAtClient": null,
+      "nextAction": "",
+      "supportedStrategies": []
+    },
+    "phoneNumber": {
+      "pathRoot": "",
+      "status": "verified",
+      "strategy": "phone_code",
+      "nonce": null,
+      "externalVerificationRedirectURL": null,
+      "attempts": 1,
+      "expireAt": "2024-03-27T13:56:02.638Z",
+      "error": null,
+      "nextAction": "",
+      "supportedStrategies": ["phone_code"]
+    },
+    "web3Wallet": {
+      "pathRoot": "",
+      "status": null,
+      "strategy": null,
+      "nonce": null,
+      "externalVerificationRedirectURL": null,
+      "attempts": null,
+      "expireAt": null,
+      "error": null,
+      "verifiedAtClient": null,
+      "nextAction": "",
+      "supportedStrategies": []
+    },
+    "externalAccount": {
+      "pathRoot": "",
+      "status": null,
+      "strategy": null,
+      "nonce": null,
+      "externalVerificationRedirectURL": null,
+      "attempts": null,
+      "expireAt": null,
+      "error": null,
+      "verifiedAtClient": null
+    }
+  },
+  "username": null,
+  "firstName": null,
+  "lastName": null,
+  "emailAddress": null,
+  "phoneNumber": "+584140427727",
+  "web3wallet": null,
+  "unsafeMetadata": {},
+  "createdSessionId": null,
+  "createdUserId": null,
+  "abandonAt": 1711633562196,
+  "id": "sua_2eH2Q12Hp6nKqyxwwYc8OR82ZSe"
+}

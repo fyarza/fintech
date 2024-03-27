@@ -23,7 +23,7 @@ enum SigInType {
 }
 
 const Login = () => {
-  const [countryCode, setCountryCode] = useState("+49");
+  const [countryCode, setCountryCode] = useState("+58");
   const [phoneNumber, setPhoneNumber] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
   const router = useRouter();
@@ -53,7 +53,7 @@ const Login = () => {
 
         router.push({
           pathname: "/verify/[phone]",
-          params: { phone: fullPhoneNumber, signin: "true" },
+          params: { phone: fullPhoneNumber, login: "true" },
         });
       } catch (err) {
         console.log("error", JSON.stringify(err, null, 2));
@@ -82,6 +82,7 @@ const Login = () => {
             placeholder="Country code"
             placeholderTextColor={Colors.gray}
             value={countryCode}
+            onChangeText={setCountryCode}
           />
           <TextInput
             style={[styles.input, { flex: 1 }]}
@@ -99,7 +100,7 @@ const Login = () => {
             phoneNumber !== "" ? styles.enabled : styles.disabled,
             { marginBottom: 20 },
           ]}
-          onPress={() => onSignIn(SigInType.Email)}
+          onPress={() => onSignIn(SigInType.Phone)}
         >
           <Text style={defaultStyles.buttonText}>Continue</Text>
         </TouchableOpacity>
