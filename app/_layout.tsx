@@ -67,7 +67,8 @@ const InitialLayout = () => {
     if (isSignedIn && !inAuthGroup) {
       router.replace("/(authenticated)/(tabs)/home");
     } else if (!isSignedIn) {
-      router.replace("/");
+      // router.replace("/");
+      router.replace("/(authenticated)/(tabs)/home");
     }
   }, [isSignedIn]);
 
@@ -145,6 +146,12 @@ const InitialLayout = () => {
               <Ionicons name="arrow-back" size={34} color={Colors.dark} />
             </TouchableOpacity>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="(authenticated)/(tabs)"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>
