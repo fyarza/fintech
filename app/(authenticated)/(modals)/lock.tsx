@@ -56,7 +56,7 @@ const Page = () => {
   const onBiometricPress = async () => {
     const { success } = await LocalAuthentication.authenticateAsync();
     if (success) {
-      router.replace("/");
+      router.replace("/(authenticated)/(tabs)/home");
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
