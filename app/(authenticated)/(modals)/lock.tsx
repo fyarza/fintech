@@ -31,7 +31,7 @@ const Page = () => {
   useEffect(() => {
     if (code.length === 6) {
       if (code.join("") === "111111") {
-        router.replace("/");
+        router.replace("/(authenticated)/(tabs)/home");
         setCode([]);
       } else {
         offset.value = withSequence(
